@@ -1,0 +1,186 @@
+{
+  "model_type": "RandomForestClassifier",
+  "algorithm": "Random Forest (n_estimators=100, max_depth=16)",
+  "trained_at": "2026-11-04T18:14:06.240110+00:00",
+  "train_samples": 2400,
+  "test_samples": 600,
+  "metrics": {
+    "accuracy": 1.0,
+    "precision_macro": 1.0,
+    "precision_weighted": 1.0,
+    "recall_macro": 1.0,
+    "recall_weighted": 1.0,
+    "f1_macro": 1.0,
+    "f1_weighted": 1.0,
+    "confusion_matrix": [
+      [
+        200,
+        0,
+        0
+      ],
+      [
+        0,
+        200,
+        0
+      ],
+      [
+        0,
+        0,
+        200
+      ]
+    ],
+    "classification_report": {
+      "Normal": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 200.0
+      },
+      "Suspicious": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 200.0
+      },
+      "Malicious": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 200.0
+      },
+      "accuracy": 1.0,
+      "macro avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 600.0
+      },
+      "weighted avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 600.0
+      }
+    },
+    "classes": [
+      "Normal",
+      "Suspicious",
+      "Malicious"
+    ],
+    "total_test_samples": 600
+  },
+  "feature_importances": [
+    {
+      "feature": "bwd_packet_length_mean",
+      "importance": 0.1786
+    },
+    {
+      "feature": "total_bwd_bytes",
+      "importance": 0.1632
+    },
+    {
+      "feature": "packet_length_std",
+      "importance": 0.1466
+    },
+    {
+      "feature": "total_bwd_packets",
+      "importance": 0.0875
+    },
+    {
+      "feature": "fwd_packet_length_mean",
+      "importance": 0.0695
+    },
+    {
+      "feature": "flow_iat_std",
+      "importance": 0.0573
+    },
+    {
+      "feature": "total_fwd_bytes",
+      "importance": 0.0524
+    },
+    {
+      "feature": "down_up_ratio",
+      "importance": 0.0496
+    },
+    {
+      "feature": "total_fwd_packets",
+      "importance": 0.035
+    },
+    {
+      "feature": "packet_length_mean",
+      "importance": 0.0323
+    },
+    {
+      "feature": "psh_flag_count",
+      "importance": 0.026
+    },
+    {
+      "feature": "ack_flag_count",
+      "importance": 0.0201
+    },
+    {
+      "feature": "bwd_iat_mean",
+      "importance": 0.0194
+    },
+    {
+      "feature": "flow_iat_mean",
+      "importance": 0.019
+    },
+    {
+      "feature": "fwd_iat_mean",
+      "importance": 0.0151
+    },
+    {
+      "feature": "flow_bytes_per_sec",
+      "importance": 0.0129
+    },
+    {
+      "feature": "flow_duration",
+      "importance": 0.0111
+    },
+    {
+      "feature": "flow_packets_per_sec",
+      "importance": 0.0043
+    },
+    {
+      "feature": "fin_flag_count",
+      "importance": 0.0003
+    },
+    {
+      "feature": "rst_flag_count",
+      "importance": 0.0
+    },
+    {
+      "feature": "syn_flag_count",
+      "importance": 0.0
+    }
+  ],
+  "classes": [
+    "Normal",
+    "Suspicious",
+    "Malicious"
+  ],
+  "features": [
+    "flow_duration",
+    "total_fwd_packets",
+    "total_bwd_packets",
+    "total_fwd_bytes",
+    "total_bwd_bytes",
+    "fwd_packet_length_mean",
+    "bwd_packet_length_mean",
+    "flow_bytes_per_sec",
+    "flow_packets_per_sec",
+    "flow_iat_mean",
+    "flow_iat_std",
+    "fwd_iat_mean",
+    "bwd_iat_mean",
+    "packet_length_mean",
+    "packet_length_std",
+    "syn_flag_count",
+    "rst_flag_count",
+    "psh_flag_count",
+    "ack_flag_count",
+    "fin_flag_count",
+    "down_up_ratio"
+  ]
+}

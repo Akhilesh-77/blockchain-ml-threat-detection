@@ -1,0 +1,13 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	conn
+#open	2026-11-04-12-00-00
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	proto	service	duration	orig_bytes	resp_bytes	conn_state	local_orig	local_resp	missed_bytes	history	orig_pkts	orig_ip_bytes	resp_pkts	resp_ip_bytes	tunnel_parents
+1762257600.123456	C1a2b3c4d5e6f7g8h9	192.168.1.105	52441	104.21.45.12	443	tcp	ssl	2.3456	1240	14850	SF	T	F	0	ShADadFf	12	1864	24	16098	-
+1762257605.987654	C9h8g7f6e5d4c3b2a1	192.168.1.112	49882	185.220.101.5	9001	tcp	ssl	24.5120	15420	16840	SF	T	F	0	ShADadFf	35	17220	38	18740	-
+1762257615.112233	C2b3c4d5e6f7g8h9a0	192.168.1.189	58123	45.33.32.156	8443	tcp	ssl	4.1200	68500	1240	SF	T	F	0	ShADadFf	62	71600	8	1660	-
+1762257630.445566	C3c4d5e6f7g8h9a0b1	192.168.1.105	52450	172.217.16.206	443	tcp	ssl	1.8500	980	22400	SF	T	F	0	ShADadFf	10	1500	28	23800	-
+1762257645.778899	C4d5e6f7g8h9a0b1c2	192.168.1.144	61002	198.51.100.42	443	tcp	ssl	60.0100	1820	1200	SF	T	F	0	ShADadFf	15	2600	12	1820	-
+#close	2026-11-04-12-05-00
