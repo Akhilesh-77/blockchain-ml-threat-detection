@@ -21,6 +21,7 @@ from dashboard.ml_view import render_ml_view
 from dashboard.overview import render_overview_view
 from dashboard.reports import render_reports_view
 from dashboard.styles import SOC_CUSTOM_CSS
+from dashboard.test_lab import render_test_lab_view
 from database.db import get_db
 from ml.predict import get_predictor
 
@@ -77,6 +78,7 @@ def main() -> None:
             "Navigation Menu",
             [
                 "🛡️ SOC Overview",
+                "🧪 Real-World Test Lab",
                 "📡 Traffic Analysis",
                 "🧠 Machine Learning",
                 "⛓️ Blockchain Audit",
@@ -97,12 +99,14 @@ def main() -> None:
         else:
             st.markdown("<span class='badge-malicious'>● TAMPER DETECTED</span>", unsafe_allow_html=True)
 
+        ds_counts = db.get_data_source_counts()
         st.markdown(f"""
             <div style="margin-top: 15px; font-size: 0.8rem; color: #9CA3AF; line-height: 1.6;">
                 <strong>Database:</strong> SQLite 3<br/>
                 <strong>Hashing:</strong> SHA-256 (Canonical)<br/>
                 <strong>Total Mined Blocks:</strong> {len(chain)}<br/>
-                <strong>Encrypted Flows:</strong> {db.get_block_count() - 1 if db.get_block_count() > 0 else 0}
+                <strong>Live Flows:</strong> {ds_counts.get('LIVE_NETWORK', 0)}<br/>
+                <strong>Public Datasets:</strong> {ds_counts.get('PUBLIC_DATASET', 0)}
             </div>
         """, unsafe_allow_html=True)
 
@@ -117,6 +121,8 @@ def main() -> None:
     # --- Render Selected Page ---
     if "SOC Overview" in selected_page:
         render_overview_view()
+    elif "Real-World Test Lab" in selected_page:
+        render_test_lab_view()
     elif "Traffic Analysis" in selected_page:
         render_traffic_analysis_view()
     elif "Machine Learning" in selected_page:
@@ -131,3 +137,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

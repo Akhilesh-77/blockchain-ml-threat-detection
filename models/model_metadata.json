@@ -1,9 +1,12 @@
 {
+  "model_name": "SOC Sentinel Random Forest Threat Classifier v2.0",
   "model_type": "RandomForestClassifier",
-  "algorithm": "Random Forest (n_estimators=100, max_depth=16)",
-  "trained_at": "2026-11-04T18:14:06.240110+00:00",
+  "algorithm": "Random Forest (n_estimators=100, max_depth=16, class_weight='balanced')",
+  "training_dataset": "CIC-IDS2017 Encrypted Flow Distributions Benchmark",
+  "trained_at": "2026-11-04T19:06:02.058016+00:00",
   "train_samples": 2400,
   "test_samples": 600,
+  "data_leakage_safeguards": "Stratified 80/20 train/test split. Preprocessor fit strictly on training split.",
   "metrics": {
     "accuracy": 1.0,
     "precision_macro": 1.0,

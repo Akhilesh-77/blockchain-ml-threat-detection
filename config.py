@@ -82,3 +82,4 @@ PALETTE = {
     "text": "#E5E7EB",         # Light grey text
     "text_muted": "#9CA3AF"    # Muted text
 }
+

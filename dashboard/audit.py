@@ -172,3 +172,4 @@ def render_audit_view() -> None:
 
     df_table = pd.DataFrame(table_data)
     st.write(df_table.to_html(escape=False, index=False), unsafe_allow_html=True)
+

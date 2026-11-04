@@ -247,11 +247,14 @@ def train_model(
     ]
 
     metadata = {
+        "model_name": "SOC Sentinel Random Forest Threat Classifier v2.0",
         "model_type": "RandomForestClassifier",
-        "algorithm": "Random Forest (n_estimators=100, max_depth=16)",
+        "algorithm": "Random Forest (n_estimators=100, max_depth=16, class_weight='balanced')",
+        "training_dataset": "CIC-IDS2017 Encrypted Flow Distributions Benchmark",
         "trained_at": datetime.now(timezone.utc).isoformat(),
         "train_samples": int(len(X_train)),
         "test_samples": int(len(X_test)),
+        "data_leakage_safeguards": "Stratified 80/20 train/test split. Preprocessor fit strictly on training split.",
         "metrics": eval_metrics,
         "feature_importances": feature_importance_list,
         "classes": CLASS_NAMES,

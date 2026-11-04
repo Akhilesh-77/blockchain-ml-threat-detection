@@ -205,3 +205,4 @@ def extract_flows_from_packets(packets) -> pd.DataFrame:
         })
 
     return pd.DataFrame(session_rows)
+

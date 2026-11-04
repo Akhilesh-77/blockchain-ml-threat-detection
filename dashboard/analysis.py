@@ -218,3 +218,4 @@ def render_traffic_analysis_view() -> None:
             })
 
         st.write(pd.DataFrame(display_data).to_html(escape=False, index=False), unsafe_allow_html=True)
+

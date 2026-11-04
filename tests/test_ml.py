@@ -88,3 +88,4 @@ def test_predictor_inference():
     assert 0.0 <= res["confidence"] <= 1.0
     assert "probabilities" in res
     assert round(sum(res["probabilities"].values()), 1) == 1.0
+

@@ -135,3 +135,4 @@ def render_reports_view() -> None:
         st.dataframe(pd.DataFrame(logs), use_container_width=True)
     else:
         st.write("No system audit events recorded.")
+

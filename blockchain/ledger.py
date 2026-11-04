@@ -32,7 +32,8 @@ class AuditBlock:
         prev_hash: str,
         current_hash: Optional[str] = None,
         nonce: int = 0,
-        status: str = "VALID"
+        status: str = "VALID",
+        data_source: str = "SYNTHETIC_DEMO"
     ):
         self.index_num = index_num
         self.event_id = event_id
@@ -43,6 +44,7 @@ class AuditBlock:
         self.prev_hash = prev_hash
         self.nonce = nonce
         self.status = status
+        self.data_source = data_source
         self.current_hash = current_hash or self.calculate_hash()
 
     def serialize_payload(self) -> str:
@@ -86,7 +88,8 @@ class AuditBlock:
             "prev_hash": self.prev_hash,
             "current_hash": self.current_hash,
             "nonce": self.nonce,
-            "status": self.status
+            "status": self.status,
+            "data_source": self.data_source
         }
 
 
@@ -129,10 +132,12 @@ class BlockchainLedger:
         prediction: str,
         confidence: float,
         metadata_summary: Dict[str, Any],
-        event_id: Optional[str] = None
+        event_id: Optional[str] = None,
+        data_source: str = "SYNTHETIC_DEMO"
     ) -> AuditBlock:
         """
         Create, mine, and persistently commit a new audit block for an ML classification event.
+        Binds data_source and cryptographic metadata hash into the immutable block.
         """
         latest = self.db.get_latest_block()
         if latest is None:
@@ -153,7 +158,12 @@ class BlockchainLedger:
             "protocol": str(metadata_summary.get("protocol", "TCP/TLS")),
             "flow_byte_rate": round(float(metadata_summary.get("flow_bytes_per_sec", 0)), 2),
             "flow_packet_rate": round(float(metadata_summary.get("flow_packets_per_sec", 0)), 2),
+            "data_source": data_source
         }
+
+        # Compute SHA-256 digest of input metadata for cryptographic verification
+        meta_canonical = json.dumps(sanitized_metadata, sort_keys=True, separators=(',', ':'))
+        sanitized_metadata["metadata_hash"] = hashlib.sha256(meta_canonical.encode("utf-8")).hexdigest()
 
         block = AuditBlock(
             index_num=next_index,
@@ -162,20 +172,21 @@ class BlockchainLedger:
             prediction=prediction,
             confidence=confidence,
             metadata_json=sanitized_metadata,
-            prev_hash=prev_hash
+            prev_hash=prev_hash,
+            data_source=data_source
         )
 
         block.mine_block(difficulty=BLOCKCHAIN_DIFFICULTY)
         self.db.insert_block(block.to_dict())
         self.db.log_event(
             "BLOCK_COMMITTED",
-            f"Block #{block.index_num} [{block.prediction}] committed with hash {block.current_hash[:16]}..."
+            f"Block #{block.index_num} [{block.prediction}] [{data_source}] committed with hash {block.current_hash[:16]}..."
         )
         return block
 
-    def get_chain(self) -> List[AuditBlock]:
-        """Fetch all blocks from the persistent database."""
-        raw_blocks = self.db.get_all_blocks()
+    def get_chain(self, data_source: Optional[str] = None) -> List[AuditBlock]:
+        """Fetch all blocks from the persistent database with optional data source filter."""
+        raw_blocks = self.db.get_all_blocks(data_source=data_source)
         blocks = []
         for b in raw_blocks:
             blocks.append(
@@ -189,7 +200,8 @@ class BlockchainLedger:
                     prev_hash=b["prev_hash"],
                     current_hash=b["current_hash"],
                     nonce=b["nonce"],
-                    status=b.get("status", "VALID")
+                    status=b.get("status", "VALID"),
+                    data_source=b.get("data_source", "SYNTHETIC_DEMO")
                 )
             )
         return blocks
@@ -208,7 +220,8 @@ class BlockchainLedger:
                 prev_hash=raw["prev_hash"],
                 current_hash=raw["current_hash"],
                 nonce=raw["nonce"],
-                status=raw.get("status", "VALID")
+                status=raw.get("status", "VALID"),
+                data_source=raw.get("data_source", "SYNTHETIC_DEMO")
             )
         return None
 

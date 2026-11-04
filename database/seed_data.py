@@ -90,3 +90,4 @@ def seed_initial_soc_data(count: int = 25) -> None:
 
 if __name__ == "__main__":
     seed_initial_soc_data()
+

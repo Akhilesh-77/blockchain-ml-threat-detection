@@ -47,7 +47,8 @@ class DatabaseManager:
                     prev_hash TEXT NOT NULL,
                     current_hash TEXT NOT NULL,
                     nonce INTEGER NOT NULL,
-                    status TEXT DEFAULT 'VALID'
+                    status TEXT DEFAULT 'VALID',
+                    data_source TEXT DEFAULT 'SYNTHETIC_DEMO'
                 )
             """)
 
@@ -64,7 +65,8 @@ class DatabaseManager:
                     prediction TEXT NOT NULL,
                     confidence REAL NOT NULL,
                     audited INTEGER DEFAULT 0,
-                    block_index INTEGER
+                    block_index INTEGER,
+                    data_source TEXT DEFAULT 'SYNTHETIC_DEMO'
                 )
             """)
 
@@ -78,6 +80,34 @@ class DatabaseManager:
                 )
             """)
 
+            # Table for Real-World Experiments
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS experiments (
+                    experiment_id TEXT PRIMARY KEY,
+                    timestamp TEXT NOT NULL,
+                    experiment_name TEXT NOT NULL,
+                    data_source TEXT NOT NULL,
+                    total_sessions INTEGER NOT NULL,
+                    normal_count INTEGER NOT NULL,
+                    suspicious_count INTEGER NOT NULL,
+                    malicious_count INTEGER NOT NULL,
+                    ground_truth_available INTEGER DEFAULT 0,
+                    metrics_json TEXT,
+                    notes TEXT
+                )
+            """)
+
+            # Safely migrate existing tables if data_source column is missing
+            try:
+                cursor.execute("ALTER TABLE blockchain_blocks ADD COLUMN data_source TEXT DEFAULT 'SYNTHETIC_DEMO'")
+            except sqlite3.OperationalError:
+                pass
+
+            try:
+                cursor.execute("ALTER TABLE traffic_sessions ADD COLUMN data_source TEXT DEFAULT 'SYNTHETIC_DEMO'")
+            except sqlite3.OperationalError:
+                pass
+
             conn.commit()
 
     # --- Blockchain Block Operations ---
@@ -89,8 +119,8 @@ class DatabaseManager:
             cursor.execute("""
                 INSERT INTO blockchain_blocks (
                     index_num, event_id, timestamp, prediction,
-                    confidence, metadata_json, prev_hash, current_hash, nonce, status
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    confidence, metadata_json, prev_hash, current_hash, nonce, status, data_source
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 block["index_num"],
                 block["event_id"],
@@ -101,7 +131,8 @@ class DatabaseManager:
                 block["prev_hash"],
                 block["current_hash"],
                 int(block.get("nonce", 0)),
-                block.get("status", "VALID")
+                block.get("status", "VALID"),
+                block.get("data_source", "SYNTHETIC_DEMO")
             ))
             conn.commit()
 
@@ -117,11 +148,14 @@ class DatabaseManager:
                 return d
             return None
 
-    def get_all_blocks(self) -> List[Dict[str, Any]]:
-        """Retrieve all blocks in sequential index order."""
+    def get_all_blocks(self, data_source: Optional[str] = None) -> List[Dict[str, Any]]:
+        """Retrieve all blocks in sequential index order with optional data source filtering."""
         with self.get_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM blockchain_blocks ORDER BY index_num ASC")
+            if data_source:
+                cursor.execute("SELECT * FROM blockchain_blocks WHERE data_source = ? ORDER BY index_num ASC", (data_source,))
+            else:
+                cursor.execute("SELECT * FROM blockchain_blocks ORDER BY index_num ASC")
             rows = cursor.fetchall()
             blocks = []
             for row in rows:
@@ -133,11 +167,14 @@ class DatabaseManager:
                 blocks.append(d)
             return blocks
 
-    def get_block_count(self) -> int:
+    def get_block_count(self, data_source: Optional[str] = None) -> int:
         """Get the total number of blocks in the ledger."""
         with self.get_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute("SELECT COUNT(*) FROM blockchain_blocks")
+            if data_source:
+                cursor.execute("SELECT COUNT(*) FROM blockchain_blocks WHERE data_source = ?", (data_source,))
+            else:
+                cursor.execute("SELECT COUNT(*) FROM blockchain_blocks")
             return cursor.fetchone()[0]
 
     def tamper_block_for_testing(self, index_num: int, modified_prediction: str) -> bool:
@@ -202,14 +239,14 @@ class DatabaseManager:
     # --- Traffic Session Operations ---
 
     def insert_session(self, session: Dict[str, Any]) -> None:
-        """Insert or replace a traffic session."""
+        """Insert or replace a traffic session with data source tagging."""
         with self.get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute("""
                 INSERT OR REPLACE INTO traffic_sessions (
                     session_id, timestamp, src_ip_hash, dst_ip_hash,
-                    dst_port, protocol, features_json, prediction, confidence, audited, block_index
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    dst_port, protocol, features_json, prediction, confidence, audited, block_index, data_source
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 session["session_id"],
                 session["timestamp"],
@@ -221,7 +258,8 @@ class DatabaseManager:
                 session["prediction"],
                 float(session["confidence"]),
                 int(session.get("audited", 0)),
-                session.get("block_index")
+                session.get("block_index"),
+                session.get("data_source", "SYNTHETIC_DEMO")
             ))
             conn.commit()
 
@@ -241,26 +279,32 @@ class DatabaseManager:
                     s["prediction"],
                     float(s["confidence"]),
                     int(s.get("audited", 0)),
-                    s.get("block_index")
+                    s.get("block_index"),
+                    s.get("data_source", "SYNTHETIC_DEMO")
                 )
                 for s in sessions
             ]
             cursor.executemany("""
                 INSERT OR REPLACE INTO traffic_sessions (
                     session_id, timestamp, src_ip_hash, dst_ip_hash,
-                    dst_port, protocol, features_json, prediction, confidence, audited, block_index
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    dst_port, protocol, features_json, prediction, confidence, audited, block_index, data_source
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, data)
             conn.commit()
 
-    def get_all_sessions(self, limit: Optional[int] = None) -> List[Dict[str, Any]]:
-        """Retrieve sessions with optional limit."""
+    def get_all_sessions(self, limit: Optional[int] = None, data_source: Optional[str] = None) -> List[Dict[str, Any]]:
+        """Retrieve sessions with optional limit and data source filtering."""
         with self.get_connection() as conn:
             cursor = conn.cursor()
-            query = "SELECT * FROM traffic_sessions ORDER BY timestamp DESC"
+            query = "SELECT * FROM traffic_sessions"
+            params = []
+            if data_source:
+                query += " WHERE data_source = ?"
+                params.append(data_source)
+            query += " ORDER BY timestamp DESC"
             if limit:
                 query += f" LIMIT {int(limit)}"
-            cursor.execute(query)
+            cursor.execute(query, params)
             rows = cursor.fetchall()
             sessions = []
             for row in rows:
@@ -272,23 +316,30 @@ class DatabaseManager:
                 sessions.append(d)
             return sessions
 
-    def get_session_stats(self) -> Dict[str, Any]:
+    def get_session_stats(self, data_source: Optional[str] = None) -> Dict[str, Any]:
         """Compute aggregated traffic statistics directly from the database."""
         with self.get_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute("SELECT COUNT(*) FROM traffic_sessions")
+            filter_clause = " WHERE data_source = ?" if data_source else ""
+            params = (data_source,) if data_source else ()
+
+            cursor.execute(f"SELECT COUNT(*) FROM traffic_sessions{filter_clause}", params)
             total = cursor.fetchone()[0]
 
-            cursor.execute("SELECT COUNT(*) FROM traffic_sessions WHERE prediction = 'Normal'")
+            normal_filter = f" WHERE prediction = 'Normal'{' AND data_source = ?' if data_source else ''}"
+            cursor.execute(f"SELECT COUNT(*) FROM traffic_sessions{normal_filter}", params)
             normal = cursor.fetchone()[0]
 
-            cursor.execute("SELECT COUNT(*) FROM traffic_sessions WHERE prediction = 'Suspicious'")
+            susp_filter = f" WHERE prediction = 'Suspicious'{' AND data_source = ?' if data_source else ''}"
+            cursor.execute(f"SELECT COUNT(*) FROM traffic_sessions{susp_filter}", params)
             suspicious = cursor.fetchone()[0]
 
-            cursor.execute("SELECT COUNT(*) FROM traffic_sessions WHERE prediction = 'Malicious'")
+            mal_filter = f" WHERE prediction = 'Malicious'{' AND data_source = ?' if data_source else ''}"
+            cursor.execute(f"SELECT COUNT(*) FROM traffic_sessions{mal_filter}", params)
             malicious = cursor.fetchone()[0]
 
-            cursor.execute("SELECT COUNT(*) FROM traffic_sessions WHERE audited = 1")
+            aud_filter = f" WHERE audited = 1{' AND data_source = ?' if data_source else ''}"
+            cursor.execute(f"SELECT COUNT(*) FROM traffic_sessions{aud_filter}", params)
             audited = cursor.fetchone()[0]
 
             threat_count = suspicious + malicious
@@ -301,8 +352,70 @@ class DatabaseManager:
                 "malicious_sessions": malicious,
                 "threat_sessions": threat_count,
                 "threat_pct": round(threat_pct, 2),
-                "audited_sessions": audited
+                "audited_sessions": audited,
+                "data_source_filtered": data_source or "ALL"
             }
+
+    def get_data_source_counts(self) -> Dict[str, int]:
+        """Return counts of sessions grouped by their origin data source."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT data_source, COUNT(*) as cnt
+                FROM traffic_sessions
+                GROUP BY data_source
+            """)
+            counts = {"LIVE_NETWORK": 0, "PUBLIC_DATASET": 0, "SYNTHETIC_DEMO": 0}
+            for row in cursor.fetchall():
+                src = row["data_source"]
+                if src in counts:
+                    counts[src] = row["cnt"]
+                else:
+                    counts[src] = row["cnt"]
+            return counts
+
+    # --- Real-World Experiments Operations ---
+
+    def insert_experiment(self, exp: Dict[str, Any]) -> None:
+        """Insert an experiment run record."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO experiments (
+                    experiment_id, timestamp, experiment_name, data_source,
+                    total_sessions, normal_count, suspicious_count, malicious_count,
+                    ground_truth_available, metrics_json, notes
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                exp["experiment_id"],
+                exp["timestamp"],
+                exp.get("experiment_name", "Real-World Test Run"),
+                exp["data_source"],
+                int(exp["total_sessions"]),
+                int(exp.get("normal_count", 0)),
+                int(exp.get("suspicious_count", 0)),
+                int(exp.get("malicious_count", 0)),
+                int(exp.get("ground_truth_available", 0)),
+                json.dumps(exp.get("metrics", {})) if isinstance(exp.get("metrics"), dict) else str(exp.get("metrics", "{}")),
+                exp.get("notes", "")
+            ))
+            conn.commit()
+
+    def get_all_experiments(self, limit: int = 50) -> List[Dict[str, Any]]:
+        """Retrieve recent experiments."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM experiments ORDER BY timestamp DESC LIMIT ?", (limit,))
+            rows = cursor.fetchall()
+            exps = []
+            for r in rows:
+                d = dict(r)
+                try:
+                    d["metrics"] = json.loads(d["metrics_json"])
+                except Exception:
+                    d["metrics"] = {}
+                exps.append(d)
+            return exps
 
     def mark_session_audited(self, session_id: str, block_index: int) -> None:
         """Mark a session as audited and link it to its ledger block."""

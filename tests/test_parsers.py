@@ -58,3 +58,4 @@ def test_feature_extraction_dict():
     assert extracted["flow_duration"] == 4.2
     assert extracted["total_fwd_packets"] == 14.0
     assert "non_feature_field" not in extracted
+

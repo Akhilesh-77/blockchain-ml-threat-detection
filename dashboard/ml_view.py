@@ -193,3 +193,4 @@ def render_ml_view() -> None:
             predictor.load_artifacts()
             st.success(f"Model successfully retrained! New Accuracy: {new_meta['metrics']['accuracy']*100:.2f}%")
             st.rerun()
+

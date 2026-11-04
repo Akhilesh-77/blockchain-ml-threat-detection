@@ -97,3 +97,4 @@ def render_about_view() -> None:
     > [!NOTE]
     > **Local Hash-Chain vs Public Blockchain:** This implementation uses a local, high-throughput cryptographic hash-chain ledger tailored for audit compliance and SIEM integrity. It does not incur the monetary gas fees, energy waste, or public ledger disclosure associated with decentralized public cryptocurrencies.
     """)
+

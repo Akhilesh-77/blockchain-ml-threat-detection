@@ -71,3 +71,4 @@ def build_session_record(
         "audited": 0,
         "block_index": None
     }
+

@@ -133,6 +133,53 @@ SOC_CUSTOM_CSS = """
         display: inline-block;
     }
 
+    .badge-purple {
+        background: rgba(139, 92, 246, 0.15);
+        color: #c084fc;
+        border: 1px solid rgba(139, 92, 246, 0.35);
+        padding: 3px 9px;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 0.75rem;
+        display: inline-block;
+    }
+
+    .badge-source-live {
+        background: rgba(6, 182, 212, 0.2);
+        color: #38bdf8;
+        border: 1px solid #0284c7;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-weight: 700;
+        font-size: 0.78rem;
+        letter-spacing: 0.04em;
+        display: inline-block;
+    }
+
+    .badge-source-public {
+        background: rgba(139, 92, 246, 0.2);
+        color: #c084fc;
+        border: 1px solid #7c3aed;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-weight: 700;
+        font-size: 0.78rem;
+        letter-spacing: 0.04em;
+        display: inline-block;
+    }
+
+    .badge-source-demo {
+        background: rgba(245, 158, 11, 0.2);
+        color: #fbbf24;
+        border: 1px solid #d97706;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-weight: 700;
+        font-size: 0.78rem;
+        letter-spacing: 0.04em;
+        display: inline-block;
+    }
+
     /* Cryptographic Hash pill */
     .hash-pill {
         background: #0f172a;
@@ -189,3 +236,4 @@ def render_metric_card(title: str, value: str, subtitle: str = "", border_color:
         <div class="soc-metric-subtitle">{subtitle}</div>
     </div>
     """
+
