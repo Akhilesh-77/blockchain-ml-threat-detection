@@ -273,17 +273,4 @@ def render_overview_view() -> None:
         st.write(df_display.to_html(escape=False, index=False), unsafe_allow_html=True)
     else:
         st.write("No session records found for the selected data source.")
-                "Timestamp (UTC)": r["timestamp"][:19].replace("T", " "),
-                "Source (Anonymized)": r["src_ip_hash"],
-                "Destination": f"{r['dst_ip_hash']}:{r['dst_port']}",
-                "Protocol": r["protocol"],
-                "Classification": pred_html,
-                "Confidence": f"{r['confidence']*100:.1f}%",
-                "Ledger Status": audit_html
-            })
-
-        df_display = pd.DataFrame(display_rows)
-        st.write(df_display.to_html(escape=False, index=False), unsafe_allow_html=True)
-    else:
-        st.write("No session records found.")
 
