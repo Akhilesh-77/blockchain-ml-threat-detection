@@ -1,6 +1,6 @@
-# 🛡️ SOC Sentinel — Real-World Testing & Validation Guide
+# 🛡️ CyberNex — Real-World Testing & Validation Guide
 
-Comprehensive engineering and operational guide for conducting real-world network traffic testing, public dataset validation, and cryptographic blockchain verification using **SOC Sentinel**.
+Comprehensive engineering and operational guide for conducting real-world network traffic testing, public dataset validation, and cryptographic blockchain verification using **CyberNex**.
 
 ---
 
@@ -18,7 +18,7 @@ Comprehensive engineering and operational guide for conducting real-world networ
 
 ## 1. Architecture & Testing Philosophy
 
-SOC Sentinel is designed to eliminate artificial or fabricated cybersecurity metrics. Every dashboard statistic, chart, and alert is derived strictly from:
+CyberNex is designed to eliminate artificial or fabricated cybersecurity metrics. Every dashboard statistic, chart, and alert is derived strictly from:
 1. Measured socket/packet flow metadata.
 2. Formally trained Random Forest classifier inference.
 3. Persistent SQLite session tables.
@@ -75,7 +75,7 @@ If no live traffic has been collected, the Overview dashboard explicitly display
 
 ## 3. Windows Setup & Live Packet Capture
 
-SOC Sentinel supports two live capture engines on Windows:
+CyberNex supports two live capture engines on Windows:
 
 ### Engine 1: Unprivileged Live Web Generator (Recommended — No Admin Required)
 This engine does not require administrative privileges or third-party drivers. It establishes real TLS 1.3 socket connections to legitimate external endpoints, measures transport-layer duration, packet chunks, byte rates, and inter-arrival times:
@@ -122,8 +122,8 @@ zeek -C -r capture.pcap
 ```
 This produces `conn.log` in the current working directory.
 
-### Step 3: Ingest into SOC Sentinel
-1. Open the SOC Sentinel dashboard.
+### Step 3: Ingest into CyberNex
+1. Open the CyberNex dashboard.
 2. In **`📡 Traffic Analysis`**, select **"Upload Zeek conn.log"**.
 3. Upload `conn.log`.
 4. The system automatically parses session durations, bytes, packets, and connection states (`SF`, `REJ`, `S0`) and feeds them into the ML model.
@@ -189,7 +189,7 @@ All security pattern tests are **strictly restricted to localhost loopback (`127
 To verify that the model is legitimately trained:
 1. Navigate to **`🧠 Machine Learning`**.
 2. The provenance card displays:
-   - **Model Name:** SOC Sentinel Random Forest Threat Classifier v2.0
+   - **Model Name:** CyberNex Random Forest Threat Classifier v2.0
    - **Algorithm:** Random Forest (100 estimators, balanced class weights, max depth 16)
    - **Training Dataset:** CIC-IDS2017 Encrypted Flow Distributions Benchmark
    - **Training Records:** 2,400 stratified flows
@@ -226,3 +226,4 @@ Every detection event commits a block containing:
    🚨 TAMPER DETECTED in Block #X! The block data was modified without a valid cryptographic re-mine.
    ```
 5. Click **"Restore / Repair Block Authentic State"** to restore data authenticity.
+

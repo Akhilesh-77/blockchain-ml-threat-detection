@@ -81,7 +81,7 @@ def render_reports_view() -> None:
         st.download_button(
             label="📥 Download Detection Report (CSV)",
             data=csv_bytes,
-            file_name=f"soc_threat_detection_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.csv",
+            file_name=f"cybernex_threat_detection_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.csv",
             mime="text/csv",
             use_container_width=True
         )

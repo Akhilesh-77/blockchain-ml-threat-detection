@@ -144,3 +144,4 @@ def test_data_source_filtering(tmp_path):
     counts = db.get_data_source_counts()
     assert counts["LIVE_NETWORK"] == 1
     assert counts["PUBLIC_DATASET"] == 1
+

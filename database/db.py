@@ -97,6 +97,27 @@ class DatabaseManager:
                 )
             """)
 
+            # Table for Mobile Device Security Scans
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS mobile_scans (
+                    scan_id TEXT PRIMARY KEY,
+                    timestamp TEXT NOT NULL,
+                    device_hash TEXT NOT NULL,
+                    manufacturer TEXT,
+                    model TEXT,
+                    android_version TEXT,
+                    total_apps_scanned INTEGER NOT NULL,
+                    safe_count INTEGER NOT NULL,
+                    low_risk_count INTEGER NOT NULL,
+                    suspicious_count INTEGER NOT NULL,
+                    high_risk_count INTEGER NOT NULL,
+                    security_score INTEGER NOT NULL,
+                    overall_verdict TEXT NOT NULL,
+                    block_index INTEGER,
+                    findings_json TEXT NOT NULL
+                )
+            """)
+
             # Safely migrate existing tables if data_source column is missing
             try:
                 cursor.execute("ALTER TABLE blockchain_blocks ADD COLUMN data_source TEXT DEFAULT 'SYNTHETIC_DEMO'")
@@ -427,6 +448,91 @@ class DatabaseManager:
                 WHERE session_id = ?
             """, (block_index, session_id))
             conn.commit()
+
+    # --- Mobile Device Security Operations ---
+
+    def insert_mobile_scan(self, scan_data: Dict[str, Any]) -> None:
+        """Insert a mobile device scan record into persistence."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            findings_raw = scan_data.get("findings", [])
+            findings_json = json.dumps(findings_raw) if isinstance(findings_raw, (list, dict)) else str(findings_raw)
+            cursor.execute("""
+                INSERT OR REPLACE INTO mobile_scans (
+                    scan_id, timestamp, device_hash, manufacturer, model,
+                    android_version, total_apps_scanned, safe_count, low_risk_count,
+                    suspicious_count, high_risk_count, security_score,
+                    overall_verdict, block_index, findings_json
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                scan_data["scan_id"],
+                scan_data["timestamp"],
+                scan_data["device_hash"],
+                scan_data.get("manufacturer", "Unknown"),
+                scan_data.get("model", "Unknown"),
+                scan_data.get("android_version", "Unknown"),
+                int(scan_data.get("total_apps_scanned", 0)),
+                int(scan_data.get("safe_count", 0)),
+                int(scan_data.get("low_risk_count", 0)),
+                int(scan_data.get("suspicious_count", 0)),
+                int(scan_data.get("high_risk_count", 0)),
+                int(scan_data.get("security_score", 100)),
+                scan_data.get("overall_verdict", "SAFE"),
+                scan_data.get("block_index"),
+                findings_json
+            ))
+            conn.commit()
+
+    def update_mobile_scan_block_index(self, scan_id: str, block_index: int) -> None:
+        """Link a mobile scan to its mined blockchain block index."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                UPDATE mobile_scans
+                SET block_index = ?
+                WHERE scan_id = ?
+            """, (block_index, scan_id))
+            conn.commit()
+
+    def get_all_mobile_scans(self, limit: int = 50) -> List[Dict[str, Any]]:
+        """Retrieve recent mobile security scans."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT * FROM mobile_scans
+                ORDER BY timestamp DESC
+                LIMIT ?
+            """, (limit,))
+            rows = cursor.fetchall()
+            results = []
+            for r in rows:
+                d = dict(r)
+                try:
+                    d["findings"] = json.loads(d["findings_json"])
+                except Exception:
+                    d["findings"] = []
+                results.append(d)
+            return results
+
+    def get_mobile_device_history(self, device_hash: str) -> List[Dict[str, Any]]:
+        """Retrieve scan audit history for a specific anonymized device identifier."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT * FROM mobile_scans
+                WHERE device_hash = ?
+                ORDER BY timestamp DESC
+            """, (device_hash,))
+            rows = cursor.fetchall()
+            results = []
+            for r in rows:
+                d = dict(r)
+                try:
+                    d["findings"] = json.loads(d["findings_json"])
+                except Exception:
+                    d["findings"] = []
+                results.append(d)
+            return results
 
     # --- System Logs ---
 

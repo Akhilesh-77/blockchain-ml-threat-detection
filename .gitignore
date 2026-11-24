@@ -26,3 +26,16 @@ Desktop.ini
 *.tmp
 temp/
 
+# Database runtime files
+cyber_nex.db
+backend/*.db
+*.sqlite
+*.sqlite3
+
+# Frontend
+frontend/node_modules/
+frontend/.next/
+frontend/.env*.local
+frontend/out/
+
+

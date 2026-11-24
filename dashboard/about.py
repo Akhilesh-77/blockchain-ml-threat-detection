@@ -11,19 +11,20 @@ def render_about_view() -> None:
     """Render Project Architecture, Ethical Design, and System Overview page."""
     st.markdown("""
         <div class="soc-header">
-            <h1>ℹ️ System Architecture & Engineering Specifications</h1>
-            <p>Comprehensive overview of the Blockchain-Audited Machine Learning System for Encrypted Threat Detection.</p>
+            <h1>ℹ️ CyberNex — Architecture & Engineering Specifications</h1>
+            <p><strong>Intelligent Cybersecurity Monitoring</strong> &bull; AI-powered threat detection with blockchain-audited security intelligence.</p>
         </div>
     """, unsafe_allow_html=True)
 
     # 1. Project Overview & Motivation
-    st.subheader("1. Project Overview")
+    st.subheader("1. CyberNex Platform Overview")
     st.markdown("""
-    Modern cyber threats increasingly leverage transport-layer encryption (TLS 1.3, HTTPS, DoH, SSH) to evade traditional Deep Packet Inspection (DPI) firewalls. Concurrently, malicious actors and compromised insiders frequently attempt to delete or alter Security Information & Event Management (SIEM) detection logs to conceal unauthorized intrusions.
+    **CyberNex** is an enterprise-grade cybersecurity platform engineered to address modern evasive attack vectors across encrypted enterprise networks and USB-connected mobile devices.
 
-    This platform addresses both critical challenges by combining:
-    1. **Machine Learning Metadata Classification:** Classifies encrypted network traffic flows into **Normal**, **Suspicious**, or **Malicious** strictly using session metadata metrics (packet lengths, inter-arrival times, burst rates, directional ratios) **without decrypting TLS payloads or intercepting private communication contents**.
-    2. **Cryptographic Blockchain-Audited Ledger:** Binds every detection decision and its metadata into an immutable, tamper-evident local **SHA-256 hash-chain**. Any attempt by an adversary or rogue administrator to alter an audit record immediately invalidates subsequent cryptographic block digests, instantly triggering SOC tampering alerts.
+    This platform operates across two synergistic inspection surfaces:
+    1. **Encrypted Network Traffic Metadata Forensics:** Classifies transport-layer flows into **Normal**, **Suspicious**, or **Malicious** strictly using session metadata metrics (packet lengths, inter-arrival times, burst rates, directional ratios) **without decrypting TLS payloads or intercepting private communication contents**.
+    2. **USB Mobile Device Security & ADB Diagnostic Forensics:** Audits authorized connected Android devices for malicious sideloaded packages, high-risk permission abuses (Accessibility, Tapjacking Overlays, Package Installers, Device Admin), security configuration posture (SELinux, Test-Keys, Unknown Sources), and calculates an automated Device Security Score.
+    3. **Cryptographic Blockchain-Audited Ledger:** Binds every detection decision and its metadata into an immutable, tamper-evident local **SHA-256 hash-chain**. Any attempt by an adversary or rogue administrator to alter an audit record immediately invalidates subsequent cryptographic block digests, instantly triggering tampering alerts.
     """)
 
     # 2. System Architecture Flow

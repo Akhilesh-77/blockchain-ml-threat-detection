@@ -18,6 +18,7 @@ from dashboard.about import render_about_view
 from dashboard.analysis import render_traffic_analysis_view
 from dashboard.audit import render_audit_view
 from dashboard.ml_view import render_ml_view
+from dashboard.mobile_view import render_mobile_view
 from dashboard.overview import render_overview_view
 from dashboard.reports import render_reports_view
 from dashboard.styles import SOC_CUSTOM_CSS
@@ -28,7 +29,7 @@ from ml.predict import get_predictor
 
 # Page Configuration
 st.set_page_config(
-    page_title="SOC Sentinel | Blockchain-Audited ML Threat Detection",
+    page_title="CyberNex | Intelligent Cybersecurity Monitoring",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -63,11 +64,14 @@ def main() -> None:
     with st.sidebar:
         st.markdown("""
             <div style="padding: 10px 0 15px 0;">
-                <div style="font-size: 1.25rem; font-weight: 700; color: #F8FAFC; letter-spacing: -0.02em;">
-                    🛡️ SOC SENTINEL
+                <div style="font-size: 1.35rem; font-weight: 800; color: #F8FAFC; letter-spacing: -0.02em;">
+                    🛡️ CYBERNEX
                 </div>
-                <div style="font-size: 0.78rem; color: #06B6D4; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;">
-                    Blockchain &bull; ML &bull; TLS Forensics
+                <div style="font-size: 0.78rem; color: #06B6D4; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;">
+                    Intelligent Cybersecurity Monitoring
+                </div>
+                <div style="font-size: 0.70rem; color: #94A3B8; margin-top: 2px;">
+                    AI Threat Detection &bull; Blockchain Audited
                 </div>
             </div>
         """, unsafe_allow_html=True)
@@ -77,7 +81,8 @@ def main() -> None:
         selected_page = st.radio(
             "Navigation Menu",
             [
-                "🛡️ SOC Overview",
+                "🛡️ CyberNex Overview",
+                "📱 Mobile Device Security",
                 "🧪 Real-World Test Lab",
                 "📡 Traffic Analysis",
                 "🧠 Machine Learning",
@@ -100,27 +105,31 @@ def main() -> None:
             st.markdown("<span class='badge-malicious'>● TAMPER DETECTED</span>", unsafe_allow_html=True)
 
         ds_counts = db.get_data_source_counts()
+        mobile_scans_count = len(db.get_all_mobile_scans())
         st.markdown(f"""
             <div style="margin-top: 15px; font-size: 0.8rem; color: #9CA3AF; line-height: 1.6;">
                 <strong>Database:</strong> SQLite 3<br/>
                 <strong>Hashing:</strong> SHA-256 (Canonical)<br/>
                 <strong>Total Mined Blocks:</strong> {len(chain)}<br/>
                 <strong>Live Flows:</strong> {ds_counts.get('LIVE_NETWORK', 0)}<br/>
-                <strong>Public Datasets:</strong> {ds_counts.get('PUBLIC_DATASET', 0)}
+                <strong>Public Datasets:</strong> {ds_counts.get('PUBLIC_DATASET', 0)}<br/>
+                <strong>Mobile Scans:</strong> {mobile_scans_count}
             </div>
         """, unsafe_allow_html=True)
 
         st.markdown("<hr style='margin: 20px 0; border-color: #1F2937;'/>", unsafe_allow_html=True)
         st.markdown("""
             <div style="font-size: 0.75rem; color: #6B7280;">
-                Google DeepMind Advanced Engineering<br/>
-                Autonomous Cyber-Defense & Forensics
+                CyberNex Security Engineering<br/>
+                Intelligent Cybersecurity Monitoring
             </div>
         """, unsafe_allow_html=True)
 
     # --- Render Selected Page ---
-    if "SOC Overview" in selected_page:
+    if "CyberNex Overview" in selected_page:
         render_overview_view()
+    elif "Mobile Device Security" in selected_page:
+        render_mobile_view()
     elif "Real-World Test Lab" in selected_page:
         render_test_lab_view()
     elif "Traffic Analysis" in selected_page:

@@ -79,7 +79,7 @@ def map_cic_ground_truth(raw_label: str) -> str:
 
 
 class CICDatasetValidator:
-    """Inspects and aligns uploaded public dataset with SOC Sentinel requirements."""
+    """Inspects and aligns uploaded public dataset with CyberNex requirements."""
 
     def __init__(self, df: pd.DataFrame):
         self.raw_df = df.copy()

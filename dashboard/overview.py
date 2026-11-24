@@ -22,7 +22,7 @@ def render_overview_view() -> None:
 
     st.markdown("""
         <div class="soc-header">
-            <h1>🛡️ SOC Command Center & Telemetry</h1>
+            <h1>🛡️ CyberNex Command Center & Telemetry</h1>
             <p>Live monitoring of encrypted network session metadata classified by Random Forest & audited via SHA-256 Hash-Chain.</p>
         </div>
     """, unsafe_allow_html=True)

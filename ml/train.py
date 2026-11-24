@@ -247,7 +247,7 @@ def train_model(
     ]
 
     metadata = {
-        "model_name": "SOC Sentinel Random Forest Threat Classifier v2.0",
+        "model_name": "CyberNex Random Forest Threat Classifier v2.0",
         "model_type": "RandomForestClassifier",
         "algorithm": "Random Forest (n_estimators=100, max_depth=16, class_weight='balanced')",
         "training_dataset": "CIC-IDS2017 Encrypted Flow Distributions Benchmark",

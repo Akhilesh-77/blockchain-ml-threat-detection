@@ -184,6 +184,84 @@ class BlockchainLedger:
         )
         return block
 
+    def create_mobile_scan_record(
+        self,
+        assessment: Any,
+        posture: Any,
+        scan_id: Optional[str] = None
+    ) -> AuditBlock:
+        """
+        Create, mine, and persistently commit a tamper-evident blockchain audit record
+        for a mobile device security scan. Enforces strict privacy: raw device serials,
+        IMEIs, phone numbers, or private user data are strictly excluded.
+        """
+        latest = self.db.get_latest_block()
+        if latest is None:
+            self._ensure_genesis_block()
+            latest = self.db.get_latest_block()
+
+        next_index = latest["index_num"] + 1
+        prev_hash = latest["current_hash"]
+        event_id = scan_id or f"MOB-{uuid.uuid4().hex[:12].upper()}"
+        timestamp = datetime.now(timezone.utc).isoformat()
+        data_source = "MOBILE_SECURITY"
+
+        # Privacy-Preserving Sanitized Metadata
+        sanitized_metadata = {
+            "scan_type": "MOBILE_DEVICE_SECURITY_AUDIT",
+            "device_hash": str(posture.device_hash),
+            "manufacturer": str(posture.manufacturer),
+            "model": str(posture.model),
+            "android_version": str(posture.android_version),
+            "sdk_level": int(posture.sdk_level),
+            "selinux_mode": str(posture.selinux_mode),
+            "security_score": int(assessment.security_score),
+            "total_packages": int(posture.total_packages),
+            "third_party_packages": int(posture.third_party_packages_count),
+            "sideloaded_packages": int(posture.sideloaded_count),
+            "threat_summary": {
+                "high_risk": int(assessment.high_risk_count),
+                "suspicious": int(assessment.suspicious_count),
+                "low_risk": int(assessment.low_risk_count),
+                "safe": int(assessment.safe_count)
+            },
+            "findings_count": len(assessment.findings),
+            "findings_digest": str(assessment.findings_digest),
+            "data_source": data_source
+        }
+
+        # Canonical SHA-256 digest of metadata
+        meta_canonical = json.dumps(sanitized_metadata, sort_keys=True, separators=(',', ':'))
+        sanitized_metadata["metadata_hash"] = hashlib.sha256(meta_canonical.encode("utf-8")).hexdigest()
+
+        # Overall scan confidence based on findings
+        conf_scores = [f.ml_confidence for f in assessment.findings if hasattr(f, "ml_confidence")]
+        avg_confidence = sum(conf_scores) / len(conf_scores) if conf_scores else 0.95
+
+        block = AuditBlock(
+            index_num=next_index,
+            event_id=event_id,
+            timestamp=timestamp,
+            prediction=assessment.overall_verdict,
+            confidence=avg_confidence,
+            metadata_json=sanitized_metadata,
+            prev_hash=prev_hash,
+            data_source=data_source
+        )
+
+        block.mine_block(difficulty=BLOCKCHAIN_DIFFICULTY)
+        self.db.insert_block(block.to_dict())
+
+        # Link in mobile_scans table if scan_id provided
+        if scan_id:
+            self.db.update_mobile_scan_block_index(scan_id, block.index_num)
+
+        self.db.log_event(
+            "MOBILE_SCAN_AUDITED",
+            f"Mobile Scan #{block.index_num} [{posture.device_hash}] [{assessment.overall_verdict}] score={assessment.security_score} hash={block.current_hash[:16]}..."
+        )
+        return block
+
     def get_chain(self, data_source: Optional[str] = None) -> List[AuditBlock]:
         """Fetch all blocks from the persistent database with optional data source filter."""
         raw_blocks = self.db.get_all_blocks(data_source=data_source)

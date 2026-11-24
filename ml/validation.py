@@ -52,7 +52,7 @@ def get_model_validation_status() -> Dict[str, Any]:
         return {
             "is_trained": True,
             "status_text": "GENUINELY TRAINED & VALIDATED",
-            "model_name": meta.get("model_name", "SOC Sentinel Random Forest Threat Classifier v2.0"),
+            "model_name": meta.get("model_name", "CyberNex Random Forest Threat Classifier v2.0"),
             "algorithm": meta.get("algorithm", "Random Forest (n_estimators=100, max_depth=16)"),
             "training_dataset": meta.get("training_dataset", "CIC-IDS2017 Encrypted Flow Distributions Benchmark"),
             "train_samples": meta.get("train_samples", 0),
@@ -72,3 +72,4 @@ def get_model_validation_status() -> Dict[str, Any]:
             "model_name": "Corrupted Artifacts",
             "error_detail": str(e)
         }
+

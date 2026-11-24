@@ -156,7 +156,18 @@ def render_audit_view() -> None:
         if not report.is_valid and b.index_num == report.tampered_block_index:
             status_badge = "<span class='badge-malicious'>TAMPERED</span>"
 
-        pred_badge = f"<span class='badge-{b.prediction.lower()}'>{b.prediction}</span>" if b.index_num > 0 else "<span class='badge-cyan'>GENESIS</span>"
+        pred_clean = b.prediction.lower().replace(" ", "-")
+        pred_class_map = {
+            "normal": "badge-normal",
+            "safe": "badge-normal",
+            "low-risk": "badge-cyan",
+            "suspicious": "badge-suspicious",
+            "malicious": "badge-malicious",
+            "high-risk": "badge-malicious",
+            "system_init": "badge-cyan"
+        }
+        b_class = pred_class_map.get(pred_clean, "badge-cyan")
+        pred_badge = f"<span class='{b_class}'>{b.prediction}</span>" if b.index_num > 0 else "<span class='badge-cyan'>GENESIS</span>"
 
         table_data.append({
             "Block #": b.index_num,

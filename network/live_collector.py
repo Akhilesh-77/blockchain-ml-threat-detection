@@ -286,7 +286,7 @@ def capture_live_http_session(target_host: str = "www.google.com", port: int = 4
         request = (
             f"GET / HTTP/1.1\r\n"
             f"Host: {target_host}\r\n"
-            f"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) SOC-Sentinel-Test/2.0\r\n"
+            f"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) CyberNex-Test/2.0\r\n"
             f"Accept: */*\r\n"
             f"Connection: close\r\n\r\n"
         ).encode("utf-8")
@@ -573,3 +573,4 @@ def run_controlled_loopback_test(pattern_type: str = "tor_cell_tunnel") -> Dict[
             "fin_flag_count": 1,
             "down_up_ratio": round(bwd_pkts / fwd_pkts, 2)
         }
+

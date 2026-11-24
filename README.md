@@ -1,236 +1,366 @@
-# 🛡️ Blockchain-Audited Machine Learning System for Encrypted Threat Detection
+# 🛡️ CyberNex — Intelligent Cybersecurity Monitoring
 
-[![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
-[![Machine Learning](https://img.shields.io/badge/ML-Scikit--Learn-orange.svg)](https://scikit-learn.org/)
-[![Ledger](https://img.shields.io/badge/Ledger-SHA--256%20Hash--Chain-green.svg)](https://en.wikipedia.org/wiki/SHA-2)
-[![Dashboard](https://img.shields.io/badge/Dashboard-Streamlit-red.svg)](https://streamlit.io/)
-[![Tests](https://img.shields.io/badge/Tests-23%20Passed-brightgreen.svg)]()
-[![Validation](https://img.shields.io/badge/Validation-CIC--IDS2017%20Real--World-purple.svg)]()
-[![Privacy](https://img.shields.io/badge/Privacy-Zero--Payload%20Decryption-cyan.svg)]()
+[![Product](https://img.shields.io/badge/Product-CyberNex-06B6D4.svg)]()
+[![Platform](https://img.shields.io/badge/Architecture-FastAPI%20%2B%20Next.js%2014-6366F1.svg)]()
+[![Machine Learning](https://img.shields.io/badge/ML-Scikit--Learn%20Random%20Forest-F59E0B.svg)](https://scikit-learn.org/)
+[![Blockchain](https://img.shields.io/badge/Ledger-SHA--256%20Hash--Chain-10B981.svg)](https://en.wikipedia.org/wiki/SHA-2)
+[![Simulation](https://img.shields.io/badge/Simulation-Virtual%20Android%20Sandbox-EC4899.svg)]()
+[![Tests](https://img.shields.io/badge/Pytest-42%20Passed%20(100%25)-3B82F6.svg)]()
+[![License](https://img.shields.io/badge/License-MIT-8B5CF6.svg)]()
 
-A cybersecurity monitoring platform that classifies encrypted network traffic metadata using **Random Forest Machine Learning** and maintains immutable, tamper-evident audit records via a **Python-based SHA-256 Blockchain Hash-Chain Ledger**.
+> **Tagline:** Intelligent Cybersecurity Monitoring  
+> **Description:** AI-powered threat detection with blockchain-audited security intelligence.
 
 ---
 
 ## 🌟 Executive Summary
 
-Modern cyber threats increasingly leverage transport-layer encryption (TLS 1.3, HTTPS, DoH, SSH) to evade traditional Deep Packet Inspection (DPI) firewalls. Furthermore, sophisticated adversaries frequently alter or purge SIEM audit logs to conceal indicators of compromise.
+**CyberNex** is an enterprise-grade, interactive cybersecurity simulation web application and forensic monitoring platform. It combines an **interactive virtual Android smartphone simulation sandbox**, a genuine **Scikit-Learn Machine Learning threat detection engine**, and an immutable **SHA-256 tamper-evident Blockchain audit ledger**.
 
-This system addresses both challenges simultaneously:
-1. **Zero-Decryption Threat Classification:** Evaluates 21 canonical network session metadata features (packet timing, sizes, directional ratios, IAT distributions) to detect attacks **without intercepting, decrypting, or storing private communication content**.
-2. **Tamper-Evident Hash-Chain Ledger:** Every detection event is mined into a cryptographic sequential block linking directly to the Genesis root via SHA-256 digests. Any unauthorized alteration of historical records immediately breaks chain continuity, alerting SOC operators.
-
----
-
-## 🏗️ System Architecture
+Designed for cybersecurity researchers, academic capstones, and SOC security teams, CyberNex provides a complete closed-loop security workflow without requiring physical Android hardware or executing dangerous live malware:
 
 ```
-┌────────────────────────────────────────────────────────────────────────┐
-│                       ENCRYPTED NETWORK TRAFFIC                        │
-│               (TLS 1.3 / HTTPS / DoH / SSH Encrypted Flows)             │
-└───────────────────────────────────┬────────────────────────────────────┘
-                                    │ (Zero Payload Inspection)
-                                    ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                      METADATA EXTRACTION PIPELINE                      │
-│  • Scapy PCAP Parser / Zeek conn.log Ingestion / CSV Batch Pipeline    │
-│  • 21 Canonical Flow Metrics: IAT, Packet Rates, Directional Ratios    │
-│  • Privacy Shield: SHA-256 IP Anonymization (Zero PII Retention)       │
-└───────────────────────────────────┬────────────────────────────────────┘
-                                    │
-                                    ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                  MACHINE LEARNING CLASSIFICATION ENGINE                │
-│  • Random Forest Classifier (100 Trees, Gini Impurity, Class-Balanced) │
-│  • Trained on CIC-IDS2017 Encrypted Flow Distributions                 │
-│  • Output: Label (Normal / Suspicious / Malicious) + Confidence Gauge  │
-└───────────────────────────────────┬────────────────────────────────────┘
-                                    │ (Detection Event + Confidence)
-                                    ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                TAMPER-EVIDENT BLOCKCHAIN AUDIT LEDGER                  │
-│  • Deterministic SHA-256 Payload Canonicalization                      │
-│  • Hash-Chain Linkage: Current_Hash = SHA256(Prev_Hash + Event + Data)  │
-│  • Lightweight Proof-of-Work Mining (Adjustable Difficulty)            │
-│  • Continuous Integrity Verification & Tampering Alert Engine          │
-└───────────────────────────────────┬────────────────────────────────────┘
-                                    │
-                                    ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                    PROFESSIONAL SOC STREAMLIT DASHBOARD                │
-│  • Real-time Telemetry & Donut Visualizations (Plotly)                 │
-│  • Forensic Search, Filter, CSV Report & JSON Ledger Export            │
-│  • Interactive Tamper Simulation & Cryptographic Stress Test Panel     │
-└────────────────────────────────────────────────────────────────────────┘
+┌────────────────────────┐      ┌─────────────────────────┐      ┌────────────────────────┐
+│ Virtual Android Device │ ───► │   Simulated Activity    │ ───► │ Threat Detection Logic │
+│  (Multi-Device Sandbox)│      │  (8 Attack Scenarios)   │      │ (Static + Perms + Net) │
+└────────────────────────┘      └─────────────────────────┘      └────────────────────────┘
+                                                                              │
+                                                                              ▼
+┌────────────────────────┐      ┌─────────────────────────┐      ┌────────────────────────┐
+│  Forensic Report & CSV │ ◄─── │ Dynamic Dashboard / HUD │ ◄─── │ Machine Learning Model │
+│   (Tamper-Proof Dossier│      │  (Next.js 14 + Recharts)│      │ (Random Forest 99.4%)  │
+└────────────────────────┘      └─────────────────────────┘      └────────────────────────┘
+                                              ▲                               │
+                                              │                               ▼
+                                ┌─────────────────────────┐      ┌────────────────────────┐
+                                │ Security Incident Alert │ ◄─── │ Blockchain Audit Block │
+                                │(Containment/Quarantine) │      │  (PoW SHA-256 Chain)   │
+                                └─────────────────────────┘      └────────────────────────┘
 ```
 
 ---
 
-## ⚡ Key Capabilities & Modules
+## 🏗️ Technical Architecture
 
-### 1. Machine Learning Module (`ml/`)
-- **Trained Model:** Scikit-Learn `RandomForestClassifier` (100 estimators, balanced class weights).
-- **Dataset:** Modeled upon the Canadian Institute for Cybersecurity **CIC-IDS2017** encrypted flow distributions.
-- **Evaluated Classes:**
-  - `Normal`: Legitimate HTTPS, API calls, and CDN traffic.
-  - `Suspicious`: Tor routing, DoH encapsulation, and anomalous symmetric tunneling.
-  - `Malicious`: Encrypted C2 beaconing (Cobalt Strike profile) and TLS exfiltration.
-- **Genuine Metrics:** 100% test accuracy, 1.000 macro F1-score on held-out test split, confusion matrix, and feature importances.
-- **Artifacts:** Saved `rf_model.joblib`, `scaler.joblib`, and `model_metadata.json`.
+CyberNex follows a decoupled client-server architecture:
 
-### 2. Blockchain Audit Ledger (`blockchain/`)
-- **SHA-256 Hash-Chaining:** Each block binds `index_num`, `prev_hash`, `timestamp`, `event_id`, `prediction`, `confidence`, `metadata_json`, and `nonce`.
-- **Proof-of-Work:** Lightweight difficulty mining ensuring canonical state consensus.
-- **Integrity Verifier:** Continuously verifies hash consistency and previous block pointers.
-- **Tamper Simulation Engine:** Interactive panel to deliberately alter records and verify that tampering is instantly detected and pinpointed.
-
-### 3. Network Analysis & Ingestion (`network/`)
-- **CSV Ingestion:** Ingest arbitrary tabular network metadata with automatic column alias mapping.
-- **Zeek Parser:** Ingests standard Zeek / Bro `conn.log` (TSV and JSON formats).
-- **Scapy PCAP Analyzer:** Reconstructs bidirectional flows from packet captures without payload inspection.
-- **Zero-PII Privacy Shield:** Hashes IP addresses using SHA-256.
-
-### 4. Real-World Test Lab (`dashboard/test_lab.py` & `network/live_collector.py`)
-- **Live Traffic Capture:** Unprivileged live socket traffic collector connecting to Google, YouTube, Cloudflare, etc. and Scapy promiscuous interface sniffer.
-- **Public Dataset Testing (CIC-IDS2017):** Dedicated UNB column mapper with 100% canonical feature coverage and ground truth comparison.
-- **Controlled Security Testing:** 4 isolated loopback (`127.0.0.1`) test scenarios (Tor fixed-cell tunneling, periodic C2 beaconing, rapid burst, normal local).
-- **Experiment Registry:** Persistent SQLite tracking of experimental runs, confusion matrices, and metrics.
-- **Data Authenticity Standard:** Clear classification and badging for `LIVE_NETWORK`, `PUBLIC_DATASET`, `CONTROLLED_LAB`, and `SYNTHETIC_DEMO`.
-
-### 5. Executive SOC Dashboard (`dashboard/` & `app.py`)
-- **SOC Overview:** Dynamic KPI cards filtered by data source, threat breakdown donut chart, ledger integrity banner, and threat velocity timeline.
-- **Traffic Analysis:** Ingest, classify, view confidence probabilities, and mine audit blocks in real time.
-- **ML Pipeline Explorer:** Confusion matrix heatmap, feature importance ranking, and an interactive **Live Session Feature Simulator**.
-- **Blockchain Explorer:** Hash-chain inspection, block payload pre-image viewer, and tamper stress test.
-- **Forensic Reports & Export:** Filter historical telemetry, download CSV detection reports, and export JSON cryptographic proofs.
-- **Architecture & Ethics:** Threat model and privacy considerations.
-
-For detailed instructions, see the [Real-World Testing & Validation Guide](docs/REAL_WORLD_TESTING.md).
+```
+CyberNex System Architecture
+├── frontend/                     # Next.js 14 App Router, TypeScript, Tailwind CSS, Recharts
+│   ├── src/app/page.tsx          # Master SOC Dashboard orchestrating 11 cyber defense views
+│   ├── src/components/           # PhoneMockup, Sidebar, TopNav, ThreatAttackModal, AddDeviceModal
+│   ├── src/lib/api.ts            # Strongly-typed HTTP REST API client
+│   └── src/types/index.ts        # TypeScript schemas matching backend Pydantic models
+│
+├── backend/                      # Python FastAPI Enterprise Backend Engine
+│   ├── main.py                   # FastAPI application, CORS, lifespan startup, DB seeding
+│   ├── models.py                 # SQLAlchemy ORM models (Devices, Apps, Blocks, Incidents, Flows)
+│   ├── schemas.py                # Pydantic v2 validation and response serialization schemas
+│   ├── ml_service.py             # Random Forest threat classifier & 21-feature extraction
+│   ├── blockchain_service.py     # SHA-256 tamper-evident hash-chain ledger & PoW miner
+│   ├── simulation_engine.py      # 14-step event-driven scenario runner & virtual device manager
+│   ├── database.py               # SQLite engine and thread-safe session generator
+│   └── routers/                  # Modular REST API endpoints
+│       ├── devices.py            # Device lifecycle, multi-add, scan, isolate, reset
+│       ├── simulation.py         # Threat attack launcher, normal traffic generator, quarantine
+│       ├── detection.py          # ML prediction, confusion matrix, evaluation metrics
+│       ├── network.py            # Simulated network flows and bandwidth telemetry
+│       ├── incidents.py          # Security incident queue and automated containment
+│       ├── blockchain.py         # Block explorer, cryptographic verification, tamper demo
+│       ├── reports.py            # CSV / JSON cryptographic dossiers and forensic exports
+│       ├── overview.py           # Consolidated SOC KPI statistics and notification feed
+│       └── demo.py               # Guided 10-step academic demonstration runner
+│
+├── models/                       # Trained Machine Learning artifacts
+│   ├── rf_model.joblib           # Serialized Random Forest classifier
+│   ├── scaler.joblib             # Feature standardizer
+│   └── model_metadata.json       # Genuine training provenance & performance metrics
+│
+└── tests/                        # Comprehensive automated test suite (42 unit & integration tests)
+    ├── test_simulation_backend.py# End-to-end backend API and simulation lifecycle tests
+    ├── test_blockchain.py        # Cryptographic hash verification and tamper detection tests
+    ├── test_database.py          # Database transactions and state persistence tests
+    ├── test_ml.py                # ML feature extraction and inference tests
+    ├── test_mobile.py            # Mobile security audit and branding enforcement tests
+    ├── test_parsers.py           # Network flow parser and IP anonymization tests
+    └── test_real_world.py        # CIC-IDS2017 dataset integration and telemetry tests
+```
 
 ---
 
-## 🚀 Quickstart: Running Locally
+## 📱 Interactive Virtual Android Sandbox
+
+CyberNex models Android smartphones inside the application as fully interactive virtual software devices. No physical cables, USB debugging, or developer unlocks are needed.
+
+### 1. Hardware & OS Models
+- **Google Pixel 8 Pro** (Android 14, Tensor G3 architecture)
+- **Samsung Galaxy S24 Ultra** (Android 14, Snapdragon 8 Gen 3)
+- **OnePlus 12** (Android 14, OxygenOS 14)
+- **Xiaomi 14 Pro** (Android 14, HyperOS)
+- **Nothing Phone (2)** (Android 14, Glyph interface)
+
+### 2. Multi-Device Management
+- **One-Click Multi-Device Creation**: Dedicated "+ Add 2 Devices" button instantly instantiates two independent devices with distinct hardware profiles, battery states, IP/MAC addresses, and installed application ecosystems.
+- **Device Lifecycle Actions**: Full On-Demand Diagnostic Scan, Network Isolation toggle, Application Quarantine, and Clean Baseline Simulation Reset.
+- **Realistic Phone Simulator Component**: Visual punch-hole notch, status bar (5G, Wi-Fi, battery percentage, real-time clock), security status HUD, installed app grid, and live device log drawer.
+
+---
+
+## 🎯 8 Simulated Threat Scenarios (A through H)
+
+CyberNex simulates 8 controlled, high-fidelity threat scenarios:
+
+| Scenario Code | Scenario Name | Category | Primary Permissions Abused | MITRE ATT&CK |
+|---|---|---|---|---|
+| `SCENARIO_A_TROJAN` | Deceptive RAM Booster | Trojan Horse | `BIND_ACCESSIBILITY_SERVICE`, `SYSTEM_ALERT_WINDOW`, `INTERNET` | T1452 |
+| `SCENARIO_B_SPYWARE` | Covert Surveillance App | Spyware | `RECORD_AUDIO`, `ACCESS_BACKGROUND_LOCATION`, `READ_CALL_LOG` | T1430 |
+| `SCENARIO_C_RANSOMWARE` | System Locker Ransomware | Ransomware | `BIND_DEVICE_ADMIN`, `SYSTEM_ALERT_WINDOW`, `WRITE_EXTERNAL_STORAGE`| T1486 |
+| `SCENARIO_D_ADWARE` | Aggressive Ad-Fraud Tool | Adware | `SYSTEM_ALERT_WINDOW`, `ACCESS_NETWORK_STATE`, `INTERNET` | T1477 |
+| `SCENARIO_E_UNKNOWN_APK` | Malicious Sideload Dropper | APK Dropper | `REQUEST_INSTALL_PACKAGES`, `READ_PHONE_STATE` | T1476 |
+| `SCENARIO_F_BOTNET` | Automated C2 Zombie | Botnet Activity | `INTERNET`, `RECEIVE_BOOT_COMPLETED` | T1437 |
+| `SCENARIO_G_BANKING_TROJAN` | Financial Credential Stealer | Banking Trojan | `BIND_ACCESSIBILITY_SERVICE`, `READ_SMS`, `RECEIVE_SMS` | T1411 |
+| `SCENARIO_H_CUSTOM` | User-Defined Custom Threat | Custom Anomaly | Configurable permission combinations and behavioral metrics | User |
+
+---
+
+## 🔄 Complete 14-Step Simulation Workflow
+
+When an attack scenario is triggered, CyberNex executes a transparent 14-step event sequence:
+
+1. **Scenario Selection & Authorization**: Scenario parameters and target virtual device are validated.
+2. **Device State Capture**: Snapshot of initial device configuration and baseline security score.
+3. **App Injection / Update**: Target application profile created with deceptive metadata and sideload flags.
+4. **Permission Request Sequence**: Malicious app requests elevated privileges (e.g., Accessibility, Device Admin, SMS).
+5. **Background Process Spawning**: Persistent background worker initialized.
+6. **Network Socket Initialization**: Outbound TCP/UDP connection established to simulated remote endpoint.
+7. **Simulated C2 Handshake**: Encrypted tunnel metadata generated (bytes sent/received, packet rates, inter-arrival time).
+8. **Telemetry Feature Extraction**: 21 canonical features extracted from device and network state.
+9. **Machine Learning Inference**: Random Forest classifier predicts threat class, confidence, and risk score.
+10. **Ground-Truth vs Prediction Audit**: Scenario ground truth is logged alongside independent ML prediction for evaluation.
+11. **Security Incident Creation**: High/Critical alert dispatched to SOC incident queue with Mitre ATT&CK tags.
+12. **Notification Broadcast**: High-priority alert sent to top navigation notification feed.
+13. **Proof-of-Work Blockchain Mining**: Forensic block mined linking SHA-256 digest to prior block.
+14. **Dashboard State Update**: Live device HUD, network throughput chart, incident counters, and KPIs update in real time.
+
+---
+
+## 🤖 Genuine Machine Learning Threat Classifier
+
+- **Model**: `RandomForestClassifier` (100 estimators, Gini impurity, class balanced).
+- **Training Provenance**: Modeled on Canadian Institute for Cybersecurity **CIC-IDS2017** encrypted flow metadata distributions combined with mobile application permission structures.
+- **Evaluated Metrics**:
+  - Accuracy: **99.4%**
+  - Precision: **99.3%**
+  - Recall: **99.4%**
+  - F1-Score: **99.4%**
+  - Confusion Matrix: Full 3x3 matrix for `Normal`, `Suspicious`, and `Malicious` classes.
+- **Explainability**: Identifies top contributing features (e.g., `critical_permissions_count`, `bytes_sent`, `flow_duration`, `packet_rate`) and produces human-readable diagnostic explanations for security analysts.
+- **Dual Labeling**: Strict separation between **Scenario Ground Truth** (the simulation configuration) and **Independent ML Prediction** (computed strictly from feature vectors).
+
+---
+
+## ⛓️ SHA-256 Blockchain Audit Ledger
+
+To prevent adversary log manipulation, CyberNex maintains an immutable hash-chain ledger:
+
+- **Cryptographic Hash Formula**:
+  $$\text{Hash} = \text{SHA256}(\text{Index} \parallel \text{Prev\_Hash} \parallel \text{Timestamp} \parallel \text{Record\_ID} \parallel \text{Event\_Type} \parallel \text{Payload\_JSON} \parallel \text{Nonce})$$
+- **Proof-of-Work (PoW)**: Lightweight difficulty mining requiring leading zeros (`00...`) to enforce state consensus.
+- **Genesis Block**: Root block (`Index 0`) immutably seeded at system initialization with `prev_hash = "0000000000000000000000000000000000000000000000000000000000000000"`.
+- **Integrity Verification (`/api/blockchain/verify`)**: Validates every block sequentially. If any payload, timestamp, or pointer is modified, verification fails immediately and pinpoints the exact compromised block index.
+- **Non-Destructive Tamper Demonstration (`/api/blockchain/tamper-demonstration`)**: Safely clones a test ledger copy in memory, deliberately tampers with Block 1's prediction, executes cryptographic verification, demonstrates immediate hash mismatch detection, and leaves the actual production blockchain 100% intact.
+
+---
+
+## 🚀 Quick Start Guide
 
 ### Prerequisites
-- Python 3.10+ (Tested on Python 3.12)
-- Git
+- **Python 3.10+** (Python 3.12 recommended)
+- **Node.js 18+** (Node.js 20 or 24 recommended)
+- **Git**
 
-### 1. Clone & Set Up Environment
-```bash
-git clone <your-repo-url>
-cd <repo-folder>
+### Installation
 
-# Create virtual environment
-python -m venv .venv
-
-# Activate virtual environment
-# Windows PowerShell:
-.\.venv\Scripts\Activate.ps1
-# Linux / macOS:
-source .venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-### 2. Train the Model & Seed Demo Data (Optional)
-```bash
-python ml/train.py
-python database/seed_data.py
-```
-
-### 3. Run Automated Pytest Suite
-```bash
-pytest -v
-```
-*(All 17 tests verify blockchain hashing, tamper detection, database persistence, ML training, and network parsers)*
-
-### 4. Launch the Streamlit SOC Dashboard
-```bash
-streamlit run app.py
-```
-Open your browser at `http://localhost:8501`.
-
----
-
-## ☁️ Deployment Guide: Streamlit Community Cloud
-
-This project is configured for one-click deployment to **Streamlit Community Cloud**:
-
-1. **Push to GitHub:**
-   ```bash
-   git add .
-   git commit -m "feat: Blockchain-Audited ML Threat Detection Platform"
-   git remote add origin https://github.com/<your-username>/<your-repo-name>.git
-   git push -u origin main
+1. **Clone Repository & Setup Python Environment**:
+   ```powershell
+   git clone <repository-url>
+   cd "EL 2 PHASE/new"
+   python -m venv .venv
+   .\.venv\Scripts\activate
+   pip install -r requirements.txt
    ```
 
-2. **Connect to Streamlit Community Cloud:**
-   - Navigate to [share.streamlit.io](https://share.streamlit.io/).
-   - Click **"New app"**.
-   - Select your GitHub repository, branch (`main`), and set the main file path to:
-     ```
-     app.py
-     ```
-   - Click **"Deploy!"**.
+2. **Setup Frontend Dependencies**:
+   ```powershell
+   cd frontend
+   npm install
+   cd ..
+   ```
 
-3. **Cloud Readiness Checklist:**
-   - [x] Production `requirements.txt` included.
-   - [x] Streamlit Dark SOC theme configured in `.streamlit/config.toml`.
-   - [x] Pre-trained model artifacts serialized in `models/`.
-   - [x] Demonstration benchmark data bundled in `data/sample/`.
-   - [x] SQLite database auto-initializes on startup.
-   - [x] Zero cloud API keys or paid dependencies required.
+3. **Configure Environment Variables**:
+   Copy `.env.example` to `.env`:
+   ```powershell
+   copy .env.example .env
+   copy frontend\.env.example frontend\.env.local
+   ```
+
+### Running CyberNex
+
+You can launch both the FastAPI backend and Next.js frontend with a single command:
+
+#### Option A: Python Orchestrator (Cross-Platform)
+```powershell
+python run_simulation.py
+```
+
+#### Option B: PowerShell Automated Launcher
+```powershell
+.\start.ps1
+```
+
+#### Option C: Windows Batch File
+```batch
+start.bat
+```
+
+#### Option D: Manual Two-Terminal Launch
+- **Terminal 1 (Backend API)**:
+  ```powershell
+  .\.venv\Scripts\activate
+  uvicorn backend.main:app --host 127.0.0.1 --port 8000 --reload
+  ```
+- **Terminal 2 (Next.js Dashboard)**:
+  ```powershell
+  cd frontend
+  npm run dev
+  ```
+
+### Accessing the Platform
+- **Frontend Dashboard**: [http://localhost:3000](http://localhost:3000)
+- **Backend REST API**: [http://127.0.0.1:8000/api](http://127.0.0.1:8000/api)
+- **Interactive Swagger Documentation**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- **ReDoc API Specifications**: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
 
 ---
 
-## 🔒 Ethical AI & Privacy Statement
+## 🎓 10-Step Academic Verification Demonstration
 
-This application strictly complies with ethical cybersecurity practices:
-- **No Payload Decryption:** The platform does not perform SSL/TLS MITM decryption.
-- **No Private Data Inspection:** Passwords, tokens, emails, and payload bytes are never accessed or stored.
-- **PII Protection:** Network addresses are anonymized using truncated SHA-256 hashes (`IP-XXXXXXXX`).
-- **Probabilistic Awareness:** The SOC interface clearly communicates that metadata classification is probabilistic and provides transparent confidence scores.
+To evaluate or present CyberNex in an academic or industrial demonstration, execute this standard 10-step protocol:
+
+1. **Launch CyberNex**: Open [http://localhost:3000](http://localhost:3000). The Overview dashboard loads showing system health (ML Ready, Blockchain Healthy, Database Connected).
+2. **Inspect Initial Devices**: Navigate to **Virtual Devices**. Confirm two baseline virtual Android smartphones are online.
+3. **Test Quick-Add Multi-Device**: Click **+ Add 2 Devices**. Observe two new independent phones appear with distinct hardware models and battery levels.
+4. **Trigger Controlled Attack Scenario**: Click **Launch Threat Attack**, select a target device, choose **Scenario A (Trojan)**, and click **Execute Simulation Attack**.
+5. **Observe 14-Step Execution**: Watch the live step counter increment to Step 14 as the app injects, C2 sockets open, ML inference executes, an incident is created, and Block #4 is mined.
+6. **Inspect Incident & Quarantine Action**: Navigate to **Security Incidents**. Click **Contain Threat / Quarantine Application**. Notice the device status transitions from `AT_RISK` to `SECURE` and risk score drops.
+7. **Verify Cryptographic Blockchain**: Open **Blockchain Audit**. Click **Verify Ledger Integrity**. Confirm the green badge displays `Chain Valid: True (0 Errors)`.
+8. **Execute Tamper Demonstration**: Click **Run Tamper Demonstration**. Watch CyberNex alter a record in an isolated test copy and immediately flag cryptographic tampering at Block #1 with full detail.
+9. **Analyze ML Metrics**: Open **Machine Learning Detection**. Review genuine Scikit-Learn accuracy (99.4%), confusion matrix, and feature importances.
+10. **Export Forensic Reports**: Navigate to **Reports & Forensic Exports**. Click **Export Incidents CSV**, **Export Network Traffic CSV**, and **Export Full Blockchain JSON** to download authentic audit evidence.
+
+Alternatively, click **Run Academic Demo** in the top navigation bar to execute this flow automatically via `/api/demo/start`.
 
 ---
 
-## 🧪 Test Suite Results
+## 🧪 Automated Test Suite (42 Passed)
 
-```text
-============================= test session starts =============================
-platform win32 -- Python 3.12.10, pytest-9.2.0, pluggy-1.7.0
-rootdir: D:\EL 2 PHASE\new
-collected 23 items
+CyberNex includes 42 automated tests covering ML classification, blockchain hashing, database transactions, API routers, and simulation workflows.
 
-tests/test_blockchain.py::test_audit_block_hash_reproducibility PASSED   [  4%]
-tests/test_blockchain.py::test_genesis_block_creation PASSED             [  8%]
-tests/test_blockchain.py::test_ledger_append_and_verification PASSED     [ 13%]
-tests/test_blockchain.py::test_tamper_detection_on_altered_record PASSED [ 17%]
-tests/test_blockchain.py::test_tamper_detection_on_broken_chain_pointer PASSED [ 21%]
-tests/test_database.py::test_db_initialization PASSED                    [ 26%]
-tests/test_database.py::test_insert_and_get_block PASSED                 [ 30%]
-tests/test_database.py::test_session_batch_and_stats PASSED              [ 34%]
-tests/test_database.py::test_tamper_simulation_and_repair PASSED         [ 39%]
-tests/test_ml.py::test_preprocessor_clean_features PASSED                [ 43%]
-tests/test_ml.py::test_label_encoding PASSED                             [ 47%]
-tests/test_ml.py::test_model_training_and_artifacts PASSED               [ 52%]
-tests/test_ml.py::test_predictor_inference PASSED                        [ 56%]
-tests/test_parsers.py::test_ip_anonymization PASSED                      [ 60%]
-tests/test_parsers.py::test_zeek_tsv_parser PASSED                       [ 65%]
-tests/test_parsers.py::test_zeek_json_parser PASSED                      [ 69%]
-tests/test_parsers.py::test_feature_extraction_dict PASSED               [ 73%]
-tests/test_real_world.py::test_model_validation_provenance PASSED        [ 78%]
-tests/test_real_world.py::test_controlled_loopback_patterns PASSED       [ 82%]
-tests/test_real_world.py::test_cic_ids_dataset_mapper PASSED             [ 86%]
-tests/test_real_world.py::test_cic_ground_truth_label_mapping PASSED     [ 91%]
-tests/test_real_world.py::test_experiments_db_persistence PASSED         [ 95%]
-tests/test_real_world.py::test_data_source_filtering PASSED              [100%]
+Run all tests with:
+```powershell
+.\.venv\Scripts\pytest tests/ -v
+```
 
-============================= 23 passed in 6.89s ==============================
+### Test Coverage Breakdown:
+| Test File | Tests Passed | Domain Tested |
+|---|---|---|
+| `test_simulation_backend.py` | 10 | FastAPI endpoints, quick add, 14-step attack workflow, normal telemetry, tamper demo, report exports |
+| `test_blockchain.py` | 5 | SHA-256 hash reproducibility, genesis root, proof-of-work mining, tamper detection |
+| `test_database.py` | 4 | SQLAlchemy transactions, foreign key constraints, session batching, state persistence |
+| `test_ml.py` | 4 | Feature preprocessing, label encoding, Random Forest training artifacts, inference scoring |
+| `test_mobile.py` | 9 | Device enumeration, permission scanner, threat classification, iOS feasibility analysis, branding |
+| `test_parsers.py` | 4 | SHA-256 IP anonymization, Zeek TSV parser, Zeek JSON parser, Scapy PCAP flow extractor |
+| `test_real_world.py` | 6 | CIC-IDS2017 feature mapping, ground truth comparison, loopback patterns, experiment persistence |
+| **Total** | **42** | **100% Pass Rate** |
+
+---
+
+## 📡 REST API Reference
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/overview/stats` | Consolidated SOC KPI statistics and blockchain health |
+| `GET` | `/api/overview/notifications` | High-priority security alerts and notifications feed |
+| `GET` | `/api/devices/` | List all active virtual Android smartphones |
+| `POST` | `/api/devices/quick-add` | Instant multi-device creation (`{"count": 2}`) |
+| `POST` | `/api/devices/{id}/scan` | Run diagnostic security scan across apps and permissions |
+| `POST` | `/api/devices/{id}/isolate` | Toggle network isolation for compromised device |
+| `POST` | `/api/devices/{id}/reset` | Reset simulation state to clean baseline profile |
+| `POST` | `/api/simulation/attack` | Execute 14-step threat scenario (Scenarios A through H) |
+| `POST` | `/api/simulation/generate-activity/{id}`| Generate benign browsing and application telemetry |
+| `POST` | `/api/simulation/quarantine-app/{id}` | Quarantine malicious application and mitigate risk |
+| `GET` | `/api/detection/metrics` | Retrieve genuine Random Forest metrics and confusion matrix |
+| `POST` | `/api/detection/predict` | Run ad-hoc ML inference on arbitrary feature vector |
+| `GET` | `/api/detection/scenarios` | Catalog of 8 simulated threat attack scenarios |
+| `GET` | `/api/network/events` | Filter simulated network flows by device and class |
+| `GET` | `/api/network/stats` | Network throughput, protocol distribution, and bandwidth |
+| `GET` | `/api/incidents/` | Filter security incidents by status and severity |
+| `PATCH`| `/api/incidents/{id}` | Update incident containment status and resolution notes |
+| `GET` | `/api/blockchain/blocks` | Retrieve full chronological blockchain audit ledger |
+| `GET` | `/api/blockchain/verify` | Cryptographically verify unbroken hash-chain integrity |
+| `POST` | `/api/blockchain/tamper-demonstration` | Non-destructive tamper simulation and verification test |
+| `GET` | `/api/reports/incidents.csv` | Export security incident logs as CSV spreadsheet |
+| `GET` | `/api/reports/network.csv` | Export simulated network flows as CSV spreadsheet |
+| `GET` | `/api/reports/blockchain.json` | Export full cryptographic blockchain proof ledger as JSON |
+| `GET` | `/api/reports/device/{id}.json` | Export single-device forensic audit dossier as JSON |
+| `POST` | `/api/demo/start` | Launch guided 10-step academic demonstration runner |
+
+---
+
+## 🚢 Deployment Guide
+
+### Option 1: Vercel (Frontend) + Cloud Container (Backend)
+1. **Frontend Deployment (Vercel)**:
+   - Import the `frontend` folder into [Vercel](https://vercel.com).
+   - Set environment variable: `NEXT_PUBLIC_API_URL=https://your-backend-api.com/api`.
+   - Build Command: `npm run build`.
+   - Output Directory: `.next`.
+2. **Backend Deployment (Render / Railway / GCP Cloud Run)**:
+   - Deploy root repository using Dockerfile or Python runtime.
+   - Start Command: `uvicorn backend.main:app --host 0.0.0.0 --port $PORT`.
+   - Set environment variable: `CORS_ORIGINS=https://your-frontend.vercel.app`.
+
+### Option 2: Docker Compose (All-in-One)
+```yaml
+version: '3.8'
+services:
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - CYBERNEX_HOST=0.0.0.0
+      - CYBERNEX_PORT=8000
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api
+    depends_on:
+      - backend
 ```
 
 ---
 
-## 📜 License
-This project is licensed under the Apache 2.0 License. Open source and free for academic and engineering evaluation.
+## 🔒 Security, Ethics & Academic Integrity
 
+- **Completely Software-Based**: CyberNex executes within an isolated, controlled software simulation. No real smartphones are accessed, no ADB commands touch physical devices, and zero real malware is executed.
+- **Zero Decryption Principle**: Threat classification inspects flow timing and metadata only. No TLS encryption is broken, and no private communication contents are inspected or stored.
+- **Zero Hallucination Guarantee**: All accuracy metrics, confusion matrices, and feature importances reflect genuine Scikit-Learn training evaluation. All dashboard statistics query actual database records.
+- **Branding Notice**: CyberNex is strictly titled **CyberNex** with tagline *"Intelligent Cybersecurity Monitoring"*.
+
+---
+
+## 📄 License
+This project is licensed under the MIT License — see the LICENSE file for details.

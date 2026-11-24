@@ -37,7 +37,7 @@ def render_test_lab_view() -> None:
     """Render the executive Real-World Test Lab."""
     st.markdown("""
         <div class="soc-header">
-            <h1>🧪 SOC Sentinel — Real-World Test Lab</h1>
+            <h1>🧪 CyberNex — Real-World Test Lab</h1>
             <p>Empirical cybersecurity laboratory: capture live network traffic, validate against public CIC-IDS2017 benchmarks, execute controlled isolated tests, and audit results in the Blockchain ledger.</p>
         </div>
     """, unsafe_allow_html=True)
@@ -546,3 +546,4 @@ def render_test_lab_view() -> None:
                 "Timestamp (UTC)": b.timestamp[:19].replace("T", " ")
             })
         st.dataframe(pd.DataFrame(chain_display), use_container_width=True)
+
